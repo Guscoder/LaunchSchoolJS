@@ -1,4 +1,3 @@
-/* eslint-disable max-lines-per-function */
 const readline = require('readline-sync');
 
 const VALID_CHOICES = {
