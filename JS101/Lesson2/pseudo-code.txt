@@ -1,0 +1,43 @@
+a function that returns the sum of two numbers
+
+Given two numbers. 
+Add the two numbers together
+Return the sum of the two numbers
+
+START
+# Given two numbers
+
+GET num1 = first Number
+GET num2 = second number
+SET sum = sum of the two numbers
+
+sum = num1 + num2
+
+PRINT sum
+END
+
+
+
+
+
+a function that takes an array of strings, and returns a string that is all those strings concatenated together
+
+Given an array of strings
+combine each string with the next to form one long string
+return the combined string
+
+START
+
+SET stringarray = the given array of strings
+SET combinedstring = the combined strings
+SET iterator = 1
+
+WHILE  iterator <= length of the stringarray
+    SET currentstring = value of string at space iterator
+    SET combinedstring = combinedstring value + currentstring
+    iterator = iterator + 1;
+
+PRINT combinedstring
+
+END
+
