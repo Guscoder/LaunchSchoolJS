@@ -68,6 +68,7 @@ function resetScores(scoreboard) {
   scoreboard.player = 0;
 }
 
+// eslint-disable-next-line max-lines-per-function
 function keepScore(playerChoice, computerChoice, scoreboard) {
   let playerScore = scoreboard.player;
   let computerScore = scoreboard.computer;
