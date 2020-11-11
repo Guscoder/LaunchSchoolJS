@@ -12,10 +12,28 @@ algorithm:
 
 */
 
-function dms(num){
-    let newNum = String(num);
-    const degree = parseInt(num);
-    const seconds = 
+const DEGREE = '\xB0';
+const MINUTES_PER_DEGREE = 60;
+const SECONDS_PER_MINUTE = 60;
+
+function padZeroes(number) {
+  let numString = String(number);
+  return numString.length < 2 ? '0' + numString : numString;
+}
+
+function dms(num) {
+  const degrees = parseInt(num);
+  const minutes = (num - degrees) * MINUTES_PER_DEGREE;
+  const seconds = (minutes - parseInt(minutes)) * SECONDS_PER_MINUTE;
+
+  console.log(
+    degrees +
+      DEGREE +
+      padZeroes(parseInt(minutes)) +
+      "'" +
+      padZeroes(parseInt(seconds)) +
+      '"'
+  );
 }
 
 dms(30); // 30°00'00"

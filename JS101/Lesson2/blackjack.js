@@ -29,7 +29,7 @@ const readline = require('readline-sync');
 
 let deck = [];
 const CARD_VALUES = [2, 3, 4, 5, 6, 7, 8, 9, 10, 'J', 'Q', 'K', 'A'];
-const CARD_SUITS = ['h', 's', 'd', 'c'];
+const CARD_SUITS = ['hearts', 'spades', 'diamonds', 'clubs'];
 let playerHand = [];
 let dealerHand = [];
 let score = {
@@ -89,14 +89,14 @@ function addValueOfCards(hand) {
 function showHand(hand, total, name) {
   let handDetails = '';
   hand.forEach((card) => {
-    handDetails += String(card[1]) + card[0] + ' ';
+    handDetails += String(card[1]) + ' ' + card[0] + ' ';
   });
   console.log(
     `\n${name} cards are: \n${handDetails}\nFor a total of ${total} points.\n`
   );
 }
 function showDealerCard(hand) {
-  let firstCard = String(hand[0][1] + hand[0][0]);
+  let firstCard = String(hand[0][1] + ' ' + hand[0][0]);
   console.log(`The Dealer has ${firstCard} and an unknown card.`);
 }
 
@@ -107,22 +107,23 @@ function playerTurn(hand, dealerCards, total) {
 
   while (total < BUST_NUMBER) {
     console.log('Do you want to hit (h) or stay (s)?');
-    let playerChoice = readline.question();
+    let playerChoice = readline.question().toLowerCase()[0];
 
     if (playerChoice === 'h') {
       dealCard(playerHand, 1);
       total = addValueOfCards(playerHand);
       showHand(playerHand, total, 'Your');
     } else if (playerChoice === 's') {
-      console.log(`\nPlayer stands at ${total}!`);
-      return false;
-    }
-    if (total > BUST_NUMBER) {
-      score.dealer += 1;
-      console.log('You Busted!');
+      break;
     } else {
-      console.log(`The Player will now stand with ${total} points\n`);
+      console.log('Please enter h or s.');
     }
+  }
+  if (total > BUST_NUMBER) {
+    score.dealer += 1;
+    console.log('You Busted!');
+  } else {
+    console.log(`The Player will now stand with ${total} points\n`);
   }
 }
 
@@ -161,7 +162,7 @@ function showScore() {
   );
 }
 
-function matchOver() {
+function displayMatchOver() {
   if (score.player === WINNING_POINTS) {
     console.log('The match is over--player wins!');
   } else if (score.dealer === WINNING_POINTS) {
@@ -172,24 +173,16 @@ function matchOver() {
 function playAgain() {
   console.log('-------------');
   let answer;
-  while (true) {
-    console.log('Do you want to play again? (y or n)');
-    answer = readline.question();
-    if (answer.toLowerCase()[0] === 'y') {
-      break;
-    } else if (answer.toLowerCase()[0] === 'n') {
-      break;
-    } else {
-      console.log('You must enter y or n.');
-    }
-  }
-  return answer.toLowerCase()[0] === 'y';
+  console.log('Do you want to play again? (y or n)');
+  answer = readline.question().toLowerCase()[0];
+  return answer;
 }
 
 function resetGame() {
   dealerHand = [];
   playerHand = [];
   deck = [];
+  console.clear();
 }
 
 // MAIN PROGRAM
@@ -221,21 +214,22 @@ while (true) {
     determineWinner(playerTotal, dealerTotal);
     break;
   }
+
   showScore();
 
   if (score.player < WINNING_POINTS && score.dealer < WINNING_POINTS) {
-    while (true) {
-      let answer = playAgain();
-      if (!answer) {
-        console.log('Thanks for playing!');
-        return false;
-      } else {
-        resetGame();
-        break;
-      }
+    let answer = playAgain();
+    if (answer === 'n') {
+      console.log('Thanks for playing!');
+      displayMatchOver();
+      console.clear();
+      break;
+    } else if (answer === 'y') {
+      resetGame();
     }
   } else {
-    matchOver();
+    displayMatchOver();
+    console.clear();
     break;
   }
 }
